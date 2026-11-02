@@ -63,10 +63,9 @@ class MembersType(Type):
                     e.add_location(member)
                     raise e
             elif member.optional:
-                if member.has_default():
-                    value = member.default()
-                else:
-                    value = None
+                value = None
+            elif member.has_default():
+                continue
             else:
                 raise EncodeError(
                     "{} member '{}' not found in {}.".format(

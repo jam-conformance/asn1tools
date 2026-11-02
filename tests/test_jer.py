@@ -112,7 +112,9 @@ class Asn1ToolsJerTest(unittest.TestCase):
         datas = [
             ('A',
              {'encoding': ('octet-aligned', b'\x12')},
-             b'{"encoding": {"octet-aligned": "12"}}')
+             b'{"direct-reference": null, "indirect-reference": null, '
+             b'"data-value-descriptor": null, '
+             b'"encoding": {"octet-aligned": "12"}}')
         ]
 
         for type_name, decoded, encoded in datas:
@@ -169,8 +171,8 @@ class Asn1ToolsJerTest(unittest.TestCase):
             'jer')
 
         datas = [
-            ('A',                    {}, b'{}'),
-            ('A',           {'a': [{}]}, b'{"a": [{}]}'),
+            ('A',                    {}, b'{"a": null}'),
+            ('A',           {'a': [{}]}, b'{"a": [{"a": null}]}'),
             ('A',    {'a': [{'a': []}]}, b'{"a": [{"a": []}]}')
         ]
 
@@ -393,8 +395,9 @@ class Asn1ToolsJerTest(unittest.TestCase):
         }
 
         encoded_message = (
-            b'{"message":{"c1":{"paging":{"systemInfoModification":"true","'
-            b'nonCriticalExtension":{}}}}}'
+            b'{"message":{"c1":{"paging":{"etws-Indication":null,"nonCriticalE'
+            b'xtension":{},"pagingRecordList":null,"systemInfoModification":"t'
+            b'rue"}}}}'
         )
 
         encoded = rrc.encode('PCCH-Message', decoded_message)
@@ -650,56 +653,68 @@ class Asn1ToolsJerTest(unittest.TestCase):
 
         encoded_message = (
             b'{"message":{"c1":{"systemInformation":{"criticalExtensions":{"sy'
-            b'stemInformation-r8":{"sib-TypeAndInfo":[{"sib2":{"ac-BarringInfo'
-            b'":{"ac-BarringForEmergency":true,"ac-BarringForMO-Data":{"ac-Bar'
-            b'ringFactor":"p95","ac-BarringForSpecialAC":"F0","ac-BarringTime"'
-            b':"s128"}},"freqInfo":{"additionalSpectrumEmission":3},"radioReso'
-            b'urceConfigCommon":{"bcch-Config":{"modificationPeriodCoeff":"n2"'
-            b'},"pcch-Config":{"defaultPagingCycle":"rf256","nB":"twoT"},"pdsc'
-            b'h-ConfigCommon":{"p-b":2,"referenceSignalPower":-60},"prach-Conf'
-            b'ig":{"prach-ConfigInfo":{"highSpeedFlag":false,"prach-ConfigInde'
-            b'x":33,"prach-FreqOffset":64,"zeroCorrelationZoneConfig":10},"roo'
-            b'tSequenceIndex":836},"pucch-ConfigCommon":{"deltaPUCCH-Shift":"d'
-            b's1","n1PUCCH-AN":2047,"nCS-AN":4,"nRB-CQI":98},"pusch-ConfigComm'
-            b'on":{"pusch-ConfigBasic":{"enable64QAM":false,"hoppingMode":"int'
-            b'erSubFrame","n-SB":1,"pusch-HoppingOffset":10},"ul-ReferenceSign'
-            b'alsPUSCH":{"cyclicShift":5,"groupAssignmentPUSCH":22,"groupHoppi'
-            b'ngEnabled":true,"sequenceHoppingEnabled":false}},"rach-ConfigCom'
-            b'mon":{"maxHARQ-Msg3Tx":8,"powerRampingParameters":{"powerRamping'
-            b'Step":"dB0","preambleInitialReceivedTargetPower":"dBm-102"},"pre'
-            b'ambleInfo":{"numberOfRA-Preambles":"n24","preamblesGroupAConfig"'
-            b':{"messagePowerOffsetGroupB":"minusinfinity","messageSizeGroupA"'
-            b':"b144","sizeOfRA-PreamblesGroupA":"n28"}},"ra-SupervisionInfo":'
-            b'{"mac-ContentionResolutionTimer":"sf48","preambleTransMax":"n8",'
-            b'"ra-ResponseWindowSize":"sf6"}},"soundingRS-UL-ConfigCommon":{"s'
-            b'etup":{"ackNackSRS-SimultaneousTransmission":true,"srs-Bandwidth'
-            b'Config":"bw0","srs-SubframeConfig":"sc4"}},"ul-CyclicPrefixLengt'
-            b'h":"len1","uplinkPowerControlCommon":{"alpha":"al0","deltaFList-'
-            b'PUCCH":{"deltaF-PUCCH-Format1":"deltaF-2","deltaF-PUCCH-Format1b'
-            b'":"deltaF1","deltaF-PUCCH-Format2":"deltaF0","deltaF-PUCCH-Forma'
-            b't2a":"deltaF-2","deltaF-PUCCH-Format2b":"deltaF0"},"deltaPreambl'
-            b'eMsg3":-1,"p0-NominalPUCCH":-127,"p0-NominalPUSCH":-126}},"timeA'
-            b'lignmentTimerCommon":"sf500","ue-TimersAndConstants":{"n310":"n2'
-            b'","n311":"n2","t300":"ms100","t301":"ms200","t310":"ms50","t311"'
-            b':"ms30000"}}},{"sib3":{"cellReselectionInfoCommon":{"q-Hyst":"dB'
-            b'0","speedStateReselectionPars":{"mobilityStateParameters":{"n-Ce'
-            b'llChangeHigh":16,"n-CellChangeMedium":1,"t-Evaluation":"s180","t'
-            b'-HystNormal":"s180"},"q-HystSF":{"sf-High":"dB-4","sf-Medium":"d'
-            b'B-6"}}},"cellReselectionServingFreqInfo":{"cellReselectionPriori'
-            b'ty":3,"threshServingLow":7},"intraFreqCellReselectionInfo":{"nei'
-            b'ghCellConfig":"80","presenceAntennaPort1":false,"q-RxLevMin":-33'
-            b',"s-IntraSearch":0,"t-ReselectionEUTRA":4}}},{"sib4":{}},{"sib5"'
-            b':{"interFreqCarrierFreqList":[{"allowedMeasBandwidth":"mbw6","dl'
-            b'-CarrierFreq":1,"neighCellConfig":"00","presenceAntennaPort1":tr'
-            b'ue,"q-OffsetFreq":"dB0","q-RxLevMin":-45,"t-ReselectionEUTRA":0,'
-            b'"threshX-High":31,"threshX-Low":29}]}},{"sib6":{"t-ReselectionUT'
-            b'RA":3}},{"sib7":{"t-ReselectionGERAN":3}},{"sib8":{"parameters1X'
-            b'RTT":{"longCodeState1XRTT":"012345678900"}}},{"sib9":{"hnb-Name"'
-            b':"34"}},{"sib10":{"messageIdentifier":"2334","serialNumber":"123'
-            b'4","warningType":"3212"}},{"sib11":{"messageIdentifier":"6788","'
-            b'serialNumber":"5435","warningMessageSegment":"12","warningMessag'
-            b'eSegmentNumber":19,"warningMessageSegmentType":"notLastSegment"}'
-            b'}]}}}}}}'
+            b'stemInformation-r8":{"nonCriticalExtension":null,"sib-TypeAndInf'
+            b'o":[{"sib2":{"ac-BarringInfo":{"ac-BarringForEmergency":true,"ac'
+            b'-BarringForMO-Data":{"ac-BarringFactor":"p95","ac-BarringForSpec'
+            b'ialAC":"F0","ac-BarringTime":"s128"},"ac-BarringForMO-Signalling'
+            b'":null},"freqInfo":{"additionalSpectrumEmission":3,"ul-Bandwidth'
+            b'":null,"ul-CarrierFreq":null},"mbsfn-SubframeConfigList":null,"r'
+            b'adioResourceConfigCommon":{"bcch-Config":{"modificationPeriodCoe'
+            b'ff":"n2"},"pcch-Config":{"defaultPagingCycle":"rf256","nB":"twoT'
+            b'"},"pdsch-ConfigCommon":{"p-b":2,"referenceSignalPower":-60},"pr'
+            b'ach-Config":{"prach-ConfigInfo":{"highSpeedFlag":false,"prach-Co'
+            b'nfigIndex":33,"prach-FreqOffset":64,"zeroCorrelationZoneConfig":'
+            b'10},"rootSequenceIndex":836},"pucch-ConfigCommon":{"deltaPUCCH-S'
+            b'hift":"ds1","n1PUCCH-AN":2047,"nCS-AN":4,"nRB-CQI":98},"pusch-Co'
+            b'nfigCommon":{"pusch-ConfigBasic":{"enable64QAM":false,"hoppingMo'
+            b'de":"interSubFrame","n-SB":1,"pusch-HoppingOffset":10},"ul-Refer'
+            b'enceSignalsPUSCH":{"cyclicShift":5,"groupAssignmentPUSCH":22,"gr'
+            b'oupHoppingEnabled":true,"sequenceHoppingEnabled":false}},"rach-C'
+            b'onfigCommon":{"maxHARQ-Msg3Tx":8,"powerRampingParameters":{"powe'
+            b'rRampingStep":"dB0","preambleInitialReceivedTargetPower":"dBm-10'
+            b'2"},"preambleInfo":{"numberOfRA-Preambles":"n24","preamblesGroup'
+            b'AConfig":{"messagePowerOffsetGroupB":"minusinfinity","messageSiz'
+            b'eGroupA":"b144","sizeOfRA-PreamblesGroupA":"n28"}},"ra-Supervisi'
+            b'onInfo":{"mac-ContentionResolutionTimer":"sf48","preambleTransMa'
+            b'x":"n8","ra-ResponseWindowSize":"sf6"}},"soundingRS-UL-ConfigCom'
+            b'mon":{"setup":{"ackNackSRS-SimultaneousTransmission":true,"srs-B'
+            b'andwidthConfig":"bw0","srs-MaxUpPts":null,"srs-SubframeConfig":"'
+            b'sc4"}},"ul-CyclicPrefixLength":"len1","uplinkPowerControlCommon"'
+            b':{"alpha":"al0","deltaFList-PUCCH":{"deltaF-PUCCH-Format1":"delt'
+            b'aF-2","deltaF-PUCCH-Format1b":"deltaF1","deltaF-PUCCH-Format2":"'
+            b'deltaF0","deltaF-PUCCH-Format2a":"deltaF-2","deltaF-PUCCH-Format'
+            b'2b":"deltaF0"},"deltaPreambleMsg3":-1,"p0-NominalPUCCH":-127,"p0'
+            b'-NominalPUSCH":-126}},"timeAlignmentTimerCommon":"sf500","ue-Tim'
+            b'ersAndConstants":{"n310":"n2","n311":"n2","t300":"ms100","t301":'
+            b'"ms200","t310":"ms50","t311":"ms30000"}}},{"sib3":{"cellReselect'
+            b'ionInfoCommon":{"q-Hyst":"dB0","speedStateReselectionPars":{"mob'
+            b'ilityStateParameters":{"n-CellChangeHigh":16,"n-CellChangeMedium'
+            b'":1,"t-Evaluation":"s180","t-HystNormal":"s180"},"q-HystSF":{"sf'
+            b'-High":"dB-4","sf-Medium":"dB-6"}}},"cellReselectionServingFreqI'
+            b'nfo":{"cellReselectionPriority":3,"s-NonIntraSearch":null,"thres'
+            b'hServingLow":7},"intraFreqCellReselectionInfo":{"allowedMeasBand'
+            b'width":null,"neighCellConfig":"80","p-Max":null,"presenceAntenna'
+            b'Port1":false,"q-RxLevMin":-33,"s-IntraSearch":0,"t-ReselectionEU'
+            b'TRA":4,"t-ReselectionEUTRA-SF":null}}},{"sib4":{"csg-PhysCellIdR'
+            b'ange":null,"intraFreqBlackCellList":null,"intraFreqNeighCellList'
+            b'":null}},{"sib5":{"interFreqCarrierFreqList":[{"allowedMeasBandw'
+            b'idth":"mbw6","cellReselectionPriority":null,"dl-CarrierFreq":1,"'
+            b'interFreqBlackCellList":null,"interFreqNeighCellList":null,"neig'
+            b'hCellConfig":"00","p-Max":null,"presenceAntennaPort1":true,"q-Of'
+            b'fsetFreq":"dB0","q-RxLevMin":-45,"t-ReselectionEUTRA":0,"t-Resel'
+            b'ectionEUTRA-SF":null,"threshX-High":31,"threshX-Low":29}]}},{"si'
+            b'b6":{"carrierFreqListUTRA-FDD":null,"carrierFreqListUTRA-TDD":nu'
+            b'll,"t-ReselectionUTRA":3,"t-ReselectionUTRA-SF":null}},{"sib7":{'
+            b'"carrierFreqsInfoList":null,"t-ReselectionGERAN":3,"t-Reselectio'
+            b'nGERAN-SF":null}},{"sib8":{"parameters1XRTT":{"cellReselectionPa'
+            b'rameters1XRTT":null,"csfb-RegistrationParam1XRTT":null,"longCode'
+            b'State1XRTT":"012345678900"},"parametersHRPD":null,"searchWindowS'
+            b'ize":null,"systemTimeInfo":null}},{"sib9":{"hnb-Name":"34"}},{"s'
+            b'ib10":{"messageIdentifier":"2334","serialNumber":"1234","warning'
+            b'SecurityInfo":null,"warningType":"3212"}},{"sib11":{"dataCodingS'
+            b'cheme":null,"messageIdentifier":"6788","serialNumber":"5435","wa'
+            b'rningMessageSegment":"12","warningMessageSegmentNumber":19,"warn'
+            b'ingMessageSegmentType":"notLastSegment"}}]}}}}}}'
         )
 
         encoded = rrc.encode('BCCH-DL-SCH-Message', decoded_message)
@@ -798,7 +813,7 @@ class Asn1ToolsJerTest(unittest.TestCase):
             'tests/files/all_types_automatic_tags.asn', 'jer')
 
         datas = [
-            ('Sequence3', {'a': 1, 'c': 2,'d': True}, b'{"a":1,"c":2,"d":true}')
+            ('Sequence3', {'a': 1, 'c': 2,'d': True}, b'{"a":1,"b":null,"c":2,"d":true}')
         ]
 
         for type_name, decoded, encoded in datas:

@@ -922,7 +922,8 @@ class Asn1ToolsCodecsConsistencyTest(Asn1ToolsBaseTest):
             b'\x00\x05\x00\x82\x00\xa1\x07\x80\x02\x02\x00\x81\x01\x54\xa2\x09'
             b'\xa2\x07\x80\x05\x03\x03\x03\x03\x03',
             b'[{"a":{"b":{"d":false},"e":[null,null,null],"f":null},"g":{"h":"'
-            b'k","l":"54"},"m":{"o":3,"p":{"q":"0303030303"},"s":false}}]',
+            b'k","l":"54"},"m":{"n":null,"o":3,"p":{"q":"0303030303","r":null'
+            b'},"s":false}}]',
             b'\x01\x01\x81\x00\x01\x03\x80\x82\x02\x00\x01\x54\x20\x00\x03\x03'
             b'\x03\x03\x03',
             b'\x09\x80\x54\x20\x03\x03\x03\x03\x03',
@@ -974,7 +975,8 @@ class Asn1ToolsCodecsConsistencyTest(Asn1ToolsBaseTest):
         encoded_messages = [
             b'\x30\x06\x80\x01\xff\x88\x01\xff',
             b'\x30\x06\x80\x01\xff\x88\x01\xff',
-            b'{"a": true, "i": true}',
+            b'{"a": true, "b": null, "c": null, "d": null, "e": null, '
+            b'"f": null, "g": null, "h": null, "i": true}',
             b'\x80\x80\xff\xff',
             b'\x80\xe0',
             b'\x80\xe0',
@@ -1628,8 +1630,8 @@ class Asn1ToolsCodecsConsistencyTest(Asn1ToolsBaseTest):
             b'\x0d\xa0\x0b\x30\x09\xa0\x02\x05\x00\xa1\x03\x02\x01\x05',
             b'\x30\x1c\xa0\x09\xa0\x07\x30\x05\xa0\x03\x01\x01\xff\xa1\x0f\xa0'
             b'\x0d\xa0\x0b\x30\x09\xa0\x02\x05\x00\xa1\x03\x02\x01\x05',
-            b'{"a": {"a": {"a": true}}, "b": {"c": {"a": {"a": null, "b": 5}}}'
-            b'}',
+            b'{"a": {"a": {"a": true, "b": null}}, "b": {"c": {"a": {"a": null'
+            b', "b": 5}}}}',
             b'\x80\x00\xff\x80\x80\x01\x05',
             b'\x28\x01\x05',
             b'\x28\x08\x28',
@@ -1650,7 +1652,8 @@ class Asn1ToolsCodecsConsistencyTest(Asn1ToolsBaseTest):
             b'\x09\xa0\x02\x05\x00\xa1\x03\x02\x01\x05',
             b'\x30\x18\xa0\x09\xa0\x07\x30\x05\xa0\x03\x01\x01\xff\xa1\x0b\xa1'
             b'\x09\xa0\x02\x05\x00\xa1\x03\x02\x01\x05',
-            b'{"a": {"a": {"a": true}}, "b": {"d": {"a": null, "b": 5}}}',
+            b'{"a": {"a": {"a": true, "b": null}}, "b": {"d": {"a": null, '
+            b'"b": 5}}}',
             b'\x80\x00\xff\x81\x80\x01\x05',
             b'\x38\x01\x05',
             b'\x38\x08\x28',
@@ -1670,7 +1673,8 @@ class Asn1ToolsCodecsConsistencyTest(Asn1ToolsBaseTest):
             b'\x0b\xa1\x09\xa0\x02\x05\x00\xa1\x03\x02\x01\x05',
             b'\x30\x1a\xa0\x0b\xa1\x09\xa0\x07\x30\x05\xa0\x03\x01\x01\xff\xa1'
             b'\x0b\xa1\x09\xa0\x02\x05\x00\xa1\x03\x02\x01\x05',
-            b'{"a": {"b": {"a": {"a": true}}}, "b": {"d": {"a": null, "b": 5}}}',
+            b'{"a": {"b": {"a": {"a": true, "b": null}, "b": null}}, '
+            b'"b": {"d": {"a": null, "b": 5}}}',
             b'\x81\x00\x00\xff\x81\x80\x01\x05',
             b'\x9c\x01\x05',
             b'\x9c\x04\x14',
